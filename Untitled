@@ -1,0 +1,105 @@
+def dtmak():
+     L=[ ['chem1', 2,"9-11", {'med1': 127, 'med2': 457, 'med3': 700, 'med4': 146, 'med5': 209}],
+       ['chem2', 1, "9-11",   {'med1': 15, 'med2': 542, 'med3': 406, 'med4': 43, 'med5': 56}],
+       ['chem3', 5, "9-11",   {'med1': 7, 'med2': 227, 'med3': 262, 'med4': 319, 'med5': 402}],
+       ['chem4', 8, "9-11" ,{'med1': 312, 'med2': 168, 'med3': 503, 'med4': 240, 'med5': 378}],
+       ['chem5', 7, "9-11" ,{'med1': 49, 'med2': 371, 'med3': 546, 'med4': 172, 'med5': 348}],
+       ['chem6', 16, "9-11" ,{'med1': 176, 'med2': 175, 'med3': 735, 'med4': 14, 'med5': 344}],
+       ['chem7', 20, "9-11" ,{'med1': 469, 'med2': 362, 'med3': 516, 'med4': 92, 'med5': 135}],
+       ['chem8', 3, "9-11" ,{'med1': 191, 'med2': 418, 'med3': 180, 'med4': 45, 'med5': 102}],
+       ['chem9', 38, {'med1': 83, 'med2': 552, 'med3': 656, 'med4': 242, 'med5': 315}],
+       ['chem10', 37, {'med1': 200, 'med2': 289, 'med3': 182, 'med4': 32, 'med5': 317}],
+       ['chem11', 32, {'med1': 281, 'med2': 269, 'med3': 630, 'med4': 182, 'med5': 327}],
+       ['chem12', 52, {'med1': 390, 'med2': 235, 'med3': 913, 'med4': 193, 'med5': 379}]
+     return L
+def dist(r):
+     A={(2,2):0,(2,3):1,(2,4):2,(2,5):3,(2,6):4,(2,26):5,(2,7):4,(2,8):3,(2,9):2,(2,10):1,(2,11):1,(2,12):1,(3,3):0,(3,4):1,(3,5):2,(3,6):3,(3,26):4,(3,7):3,(3,8):2,(3,9):1,(3,10):1,(3,11):1,(3,12):2,(4,4):0,(4,5):1,(4,6):2,(4,26):3,(4,7):2,(4,8):1,(4,9):1,(4,10):1,(4,11):2,(4,12):3,(5,5):0,(5,6):1,(5,26):2,(5,7):1,(5,8):1,(5,9):1,(5,10):2,(5,11):3,(5,12):4,(6,6):0,(6,7):1,(6,8):1,(6,9):2,(6,10):3,(6,11):4,(6,12):5,(6,26):1,(7,7):0,(7,8):1,(7,26):1,(7,9):2,(7,10):3,(7,11):4,(7,12):5,(8,8):0,(8,26):2,(8,9):1,(8,10):2,(8,11):3,(8,12):4,(9,9):0,(9,10):1,(9,11):2,(9,12):3,(10,10):0,(10,11):1,(10,12):2,(11,11):0,(11,12):1,(12,12):0}
+
+     return A[r]
+
+def search(L):
+
+    d={}
+    lis=[]
+
+    med=input('Enter medicine name : ')
+    quant=int(input('Enter medicine quantity : '))
+    for i in L:
+        d=i[3]
+        if d[med]>=quant:
+            lis.append(i[0:3])
+    return(lis)
+
+def update(L):
+    ans="y"
+    change="S"
+
+    while change in "SB":
+
+                  change=input("if you want to make a change:Enter 'S' if you have sold an item; 'B' if you have got some new stock; Else press any key : ")
+
+
+                  if change=="S":
+
+                          while ans=="Y" or ans =="y":
+
+                              N=input("Enter the Name of your chemist shop : ")
+                              M=input("Enter the name of the medecine you have sold : ")
+                              Q=int(input("Enter the quantity of the medicine sold : "))
+
+
+                              for i in L:
+                                  if i[0]==N:
+                                        i[3][M]-=Q
+
+
+
+
+                              ans=input("If you have sold another item, enter 'Y', else any key : ")
+
+                  elif change=="B":
+
+                       while ans=="Y" or ans =="y":
+
+                              N=input("Enter the Name of your chemist shop : ")
+                              M=input("Enter the name of the medecine you have sold : ")
+                              Q=int(input("Enter the quantity of the medicine sold : "))
+
+                              for i in L:
+                                  if i[0]==N:
+                                        i[3][M]+=Q
+
+                              ans=input("If you have sold another item, enter 'Y', else any key : ")
+                  else :
+
+                       print("Updation Completed!!")
+
+                  ans="y"
+
+    print(L)
+
+#main
+choose=input('''If you are a customer(press a)
+ If you are a chemist(press b) : ''')
+L=dtmak()
+if choose=='b' or choose=='B':
+    update(L)
+elif choose=='a' or choose=='A':
+    search(lis)
+    loc=input('Enter your current sector:')
+    if loc>=lis[1]:
+        T=(lis[1],loc)
+    else:
+        T=(loc,lis[1])
+    for x in range ( 0,len(lis)):
+        V=dist(T)
+        lis[x].append(V)
+    for x in range (0,len(lis)-1):
+          if lis[x][4]>lis[x+1][4]:
+                     lis[x],lis[x+1]=lis[x+1],lis[x]
+    for x in lis:
+
+          print("Chemist name",lis[x][0])
+          print("Chemist shop is in sector",lis[x][1])
+
+          print("Chemist opening and closing time is",lis[x][2])
